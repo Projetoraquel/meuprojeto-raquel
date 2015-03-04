@@ -274,18 +274,7 @@ public class CidadeTela extends javax.swing.JFrame {
         lista.add(item);
         JOptionPane.showMessageDialog(rootPane,"Cadastrado com sucesso");
         }}
-    }                                        
-
-    private void primeiroActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-        if (lista.size()>0){
-        // TODO add your handling code here:
-        posicao = 0;
-        Cidade c = lista.get(0);
-        nome.setText(c.getNome());
-        codigo.setText((c.getCodigo().toString()));
-        }
-                                                    
+                                                  
     }//GEN-LAST:event_cadastrarActionPerformed
 
     private void limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparActionPerformed
