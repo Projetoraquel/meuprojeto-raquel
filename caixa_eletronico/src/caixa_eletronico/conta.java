@@ -1,10 +1,5 @@
 
 package caixa_eletronico;
-
-/**
- *
- * @author marcelosiedler
- */
 public class conta {
     
     /* 
