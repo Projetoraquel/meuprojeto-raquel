@@ -5,6 +5,10 @@
  */
 package admin;
 
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Raquel
@@ -137,7 +141,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-        RankingListar ran = new RankingListar();
+        RankingListar ran = null;
+        try {
+            ran = new RankingListar();
+        } catch (ParseException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ran.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         ran.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
