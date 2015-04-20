@@ -64,9 +64,6 @@ public class PessoaDAO {
         try 
         {
         pst.setInt(1, pessoa.getCodigo());
-        pst.setString(2, pessoa.getNome());
-        pst.setString (3,pessoa.getSexo());
-        
         pst.executeUpdate();
         retorno = true;
         }catch (Exception ex){
@@ -75,7 +72,6 @@ public class PessoaDAO {
         }
        return retorno;
     }
-    
-    
+      
     
 }

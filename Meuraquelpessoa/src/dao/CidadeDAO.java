@@ -62,7 +62,6 @@ public class CidadeDAO {
         try 
         {
         pst.setInt(1, cidade.getCodigo());    
-        pst.setString(2, cidade.getNome());
         
         pst.executeUpdate();
         retorno = true;
