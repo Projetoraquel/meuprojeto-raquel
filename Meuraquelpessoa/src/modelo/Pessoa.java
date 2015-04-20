@@ -1,18 +1,16 @@
 
-
 package modelo;
 
 public class Pessoa {
-    private Integer cod;
-    private String nome;
-    private String sexo;
+    private Integer codigo;
+    private String nome,sexo;
 
-    public Integer getCod() {
-        return cod;
+    public Integer getCodigo() {
+        return codigo;
     }
 
-    public void setCod(Integer cod) {
-        this.cod = cod;
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
     }
 
     public String getNome() {
@@ -30,6 +28,5 @@ public class Pessoa {
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
-    
     
 }

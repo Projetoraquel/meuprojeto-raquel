@@ -6,6 +6,11 @@
 
 package admin;
 
+import dao.PerguntaDAO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import modelo.Pergunta;
+
 /**
  *
  * @author Aluno
@@ -17,6 +22,29 @@ public class PerguntaListar extends javax.swing.JFrame {
      */
     public PerguntaListar() {
         initComponents();
+        PerguntaDAO dao = new PerguntaDAO();
+        List<Pergunta>lista = dao.listar();
+       
+        
+        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        Object[] linha = new Object[modelo.getColumnCount()];
+        
+        for (Pergunta per : lista){
+            linha [0] = per.getId();
+            linha [1] = per.getEnunciado();
+            linha[2] = per.getNivel();
+            linha[3] = per.getCerta();
+            linha[4] = per.getA();
+            linha[5] = per.getB();
+            linha[6] = per.getC();
+            linha[7] = per.getD();
+            
+            modelo.addRow(linha); 
+            
+            
+            
+            
+    }
     }
 
     /**
@@ -39,11 +67,11 @@ public class PerguntaListar extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "NIVEL", "CERTA", "A", "B", "C", "D"
+                "ID", "Enunciado", "NIVEL", "CERTA", "A", "B", "C", "D"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -85,6 +113,8 @@ public class PerguntaListar extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        PerguntaManter tela = new PerguntaManter();
+        tela.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

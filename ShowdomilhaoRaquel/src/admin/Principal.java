@@ -8,6 +8,7 @@ package admin;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modelo.Ranking;
 
 /**
  *
@@ -31,6 +32,8 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        silvio = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jogmanter = new javax.swing.JMenuItem();
@@ -41,7 +44,19 @@ public class Principal extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
 
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Aluno\\Desktop\\maxresdefault.jpg")); // NOI18N
+        jLabel1.setText("jLabel1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        silvio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/silvio (1).jpg"))); // NOI18N
+        silvio.setText("jLabel2");
+        silvio.setBorder(javax.swing.BorderFactory.createMatteBorder(5, 5, 5, 5, new java.awt.Color(0, 153, 153)));
+        silvio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                silvioMouseClicked(evt);
+            }
+        });
 
         jMenu1.setText("Jogador");
 
@@ -101,11 +116,17 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(silvio, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(silvio)
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         pack();
@@ -151,6 +172,11 @@ public class Principal extends javax.swing.JFrame {
         ran.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void silvioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_silvioMouseClicked
+        // TODO add your handling code here:
+        silvio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Desktop/silvio(1).jpeg")));
+    }//GEN-LAST:event_silvioMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -187,6 +213,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -196,5 +223,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jogmanter;
     private javax.swing.JMenuItem peglistar;
     private javax.swing.JMenuItem pegmanter;
+    private javax.swing.JLabel silvio;
     // End of variables declaration//GEN-END:variables
 }

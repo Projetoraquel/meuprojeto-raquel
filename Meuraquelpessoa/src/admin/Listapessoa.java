@@ -6,6 +6,7 @@
 
 package admin;
 
+import dao.PessoaDAO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -22,25 +23,9 @@ public class Listapessoa extends javax.swing.JFrame {
      */
     public Listapessoa() {
         initComponents();
-        List<Pessoa>lista = new ArrayList<Pessoa>();
-        Pessoa item = new Pessoa();
-        item.setCodigo(1);
-        item.setNome("Raquel");
-        item.setSexo("Feminino");
-        lista.add(item);
-        
-        item = new Pessoa();
-        item.setCodigo(5);
-        item.setNome("Amanda");
-        item.setSexo("Masculino");
-        lista.add(item);
-        
-        item = new Pessoa();
-        item.setCodigo(8);
-        item.setNome("Tiffany");
-        item.setSexo("Feminino");
-        lista.add(item);
-        
+        PessoaDAO dao = new PessoaDAO();
+        List<Pessoa>lista = dao.listar();
+            
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         Object[] linha = new Object[modelo.getColumnCount()];
         

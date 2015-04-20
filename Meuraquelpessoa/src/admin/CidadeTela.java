@@ -1,6 +1,7 @@
 
 package admin;
 
+import dao.CidadeDAO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -14,7 +15,8 @@ public class CidadeTela extends javax.swing.JFrame {
         
     public CidadeTela() {
         initComponents();
-       lista = new ArrayList<Cidade>();
+        CidadeDAO dao = new CidadeDAO();
+        lista =  dao.listar();
         posicao =0;
     }
 
@@ -90,17 +92,21 @@ public class CidadeTela extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(13, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(primeiro)
-                    .addComponent(anterior)
-                    .addComponent(proximo)
-                    .addComponent(ultimo))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(primeiro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(anterior)
+                        .addComponent(proximo)
+                        .addComponent(ultimo)))
                 .addContainerGap())
         );
 
         jLabel1.setText("NOME:");
 
         jLabel2.setText("CODIGO:");
+
+        codigo.setEditable(false);
+        codigo.setEnabled(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Navegação 2"));
 
@@ -133,38 +139,47 @@ public class CidadeTela extends javax.swing.JFrame {
         });
 
         jButton1.setText("Listar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(excluir)
-                        .addGap(18, 18, 18)
-                        .addComponent(limpar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(cadastrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
-                        .addComponent(consultar)))
-                .addGap(32, 32, 32))
+                .addGap(22, 22, 22)
+                .addComponent(excluir)
+                .addGap(18, 18, 18)
+                .addComponent(limpar)
+                .addGap(32, 120, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(cadastrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(consultar)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cadastrar)
-                    .addComponent(consultar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cadastrar)
+                            .addComponent(consultar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(excluir)
-                    .addComponent(limpar)
-                    .addComponent(jButton1))
+                    .addComponent(limpar))
                 .addGap(26, 26, 26))
         );
 
@@ -244,28 +259,27 @@ public class CidadeTela extends javax.swing.JFrame {
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
         // TODO add your handling code here:
-         Cidade item = new Cidade();
-        if(nome.getText().isEmpty() || codigo.getText().isEmpty())
+        
+        Cidade item = new Cidade();
+        if(nome.getText().isEmpty())
         {
             JOptionPane.showMessageDialog(rootPane,"Todos campos obrigatorios");
         }else
-        {
-            Boolean deu = false;
-            try {
-                   item.setCodigo(Integer.parseInt(codigo.getText()));
-                    deu =true;
-            } catch (Exception e) {
-                deu = false;
-                JOptionPane.showMessageDialog(rootPane,"Codigo deve ser numerico");
-            }
-            if(deu==true)
-            {
-        item.setCodigo(Integer.parseInt(codigo.getText()));
+        { 
         item.setNome(nome.getText());
-        lista.add(item);
+           
+        CidadeDAO dao = new CidadeDAO();
+        boolean deucerto = dao.inserir(item);
+        
+        if (deucerto==true)
+        {
         JOptionPane.showMessageDialog(rootPane,"Cadastrado com sucesso");
-        }}
-                                                  
+        }else {
+        JOptionPane.showMessageDialog(rootPane,"Erro ao cadastrar");
+        }
+           lista.add(item);
+           Limpar();}
+                  
     }//GEN-LAST:event_cadastrarActionPerformed
 
     private void limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparActionPerformed
@@ -278,53 +292,91 @@ public class CidadeTela extends javax.swing.JFrame {
 
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
         // TODO add your handling code here:
-       lista.remove(lista.get(posicao));
-        Limpar();
+       if(nome.getText().isEmpty()== false){
+            if(lista.size() >= 0){ 
+              CidadeDAO dao = new CidadeDAO();
+              Boolean deucerto = dao.excluir(lista.get(posicao));
+              if (deucerto == true)
+              {
+                  JOptionPane.showMessageDialog(rootPane,"Exluido com sucesso"); 
+             lista = dao.listar();
+             Limpar();
+              }
+              else{
+                  JOptionPane.showMessageDialog(rootPane, "Erro ao excluir");
+              }
+              
+            }
+       
+        }
+       
     }//GEN-LAST:event_excluirActionPerformed
 
     private void primeiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primeiroActionPerformed
-        
+        primeiro.setEnabled(true);
+        anterior.setEnabled(false);
+        proximo.setEnabled(true);
+        ultimo.setEnabled(true);        
         if (lista.size()>0){
         // TODO add your handling code here:
         posicao = 0;
-        Cidade elemento = lista.get(0);
-        nome.setText(elemento.getNome());
-        codigo.setText((elemento.getCodigo().toString()));
+        Cidade c = lista.get(0);
+        nome.setText(c.getNome());
+        codigo.setText((c.getCodigo().toString()));
         }                                  
     }//GEN-LAST:event_primeiroActionPerformed
 
     private void anteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anteriorActionPerformed
         // TODO add your handling code here:
+        primeiro.setEnabled(true);
+        anterior.setEnabled(true);
+        proximo.setEnabled(true);
+        ultimo.setEnabled(true);
          if (posicao != 0){
         if (lista.size() > 0 ){
         posicao = posicao - 1;
-        Cidade elemento = lista.get(posicao);
-        nome.setText(elemento.getNome());
-        codigo.setText((elemento.getCodigo().toString()));
+       Cidade c = lista.get(posicao);
+        nome.setText(c.getNome());
+        codigo.setText((c.getCodigo().toString()));
         } 
          }  
     }//GEN-LAST:event_anteriorActionPerformed
 
     private void proximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proximoActionPerformed
         // TODO add your handling code here:
+        primeiro.setEnabled(true);
+        anterior.setEnabled(true);
+        proximo.setEnabled(true);
+        ultimo.setEnabled(true);
         if (lista.size() > 0){
         posicao = posicao + 1;
-        Cidade elemento = lista.get(posicao);
-        nome.setText(elemento.getNome());
-        codigo.setText((elemento.getCodigo().toString()));
+       Cidade c= lista.get(posicao);
+        nome.setText(c.getNome());
+        codigo.setText((c.getCodigo().toString()));
         
     }
     }//GEN-LAST:event_proximoActionPerformed
 
     private void ultimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimoActionPerformed
         // TODO add your handling code here:
+        primeiro.setEnabled(true);
+        anterior.setEnabled(true);
+        proximo.setEnabled(false);
+        ultimo.setEnabled(true);
          if (lista.size() > 0){
         posicao = lista.size() - 1;
-         Cidade elemento = lista.get(posicao);
-        nome.setText(elemento.getNome());
-        codigo.setText(elemento.getCodigo().toString());
+       Cidade c = lista.get(posicao);
+        nome.setText(c.getNome());
+        codigo.setText(c.getCodigo().toString());
          }
     }//GEN-LAST:event_ultimoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        CidadeListar tela = new CidadeListar();
+        tela.setVisible(true);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

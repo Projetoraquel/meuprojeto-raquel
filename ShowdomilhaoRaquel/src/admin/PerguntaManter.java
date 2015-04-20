@@ -6,6 +6,7 @@
 
 package admin;
 
+import dao.PerguntaDAO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -25,7 +26,8 @@ public class PerguntaManter extends javax.swing.JFrame {
     Integer posicao;
     public PerguntaManter() {
         initComponents();
-        lista = new ArrayList<Pergunta>();
+        PerguntaDAO dao = new PerguntaDAO();
+        lista = dao.listar();
         posicao =0;
     }
 
@@ -175,7 +177,7 @@ public class PerguntaManter extends javax.swing.JFrame {
 
         selecaocerta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "certa", "a", "b", "c", "d" }));
 
-        selecaonivel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NIVEL", "INICIANTE", "INTERMEDIARIO", "EXPERT", "INSANO" }));
+        selecaonivel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "selecione", "1", "2", "3", "4" }));
         selecaonivel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selecaonivelActionPerformed(evt);
@@ -184,6 +186,8 @@ public class PerguntaManter extends javax.swing.JFrame {
 
         jLabel6.setText("ID:");
 
+        id.setEditable(false);
+        id.setEnabled(false);
         id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 idActionPerformed(evt);
@@ -198,8 +202,8 @@ public class PerguntaManter extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(14, 14, 14)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -212,7 +216,7 @@ public class PerguntaManter extends javax.swing.JFrame {
                                                 .addComponent(jLabel3)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(b, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(87, 87, 87))
+                                        .addGap(101, 101, 101))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel5)
@@ -220,27 +224,23 @@ public class PerguntaManter extends javax.swing.JFrame {
                                             .addComponent(jLabel4))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(enunciado, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
                                                 .addGap(6, 6, 6)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(d, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(c, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addComponent(c, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(16, 16, 16))))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel6)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(enunciado, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(18, 18, 18))))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(58, 58, 58)
-                                .addComponent(selecaonivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(selecaocerta, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(67, 67, 67))))
+                                .addContainerGap()
+                                .addComponent(jLabel6)
+                                .addGap(14, 14, 14)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(selecaocerta, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(selecaonivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(cadastrar)
@@ -254,7 +254,7 @@ public class PerguntaManter extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(consultar))
                             .addComponent(listar))
-                        .addGap(0, 16, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -283,20 +283,19 @@ public class PerguntaManter extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(d, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(7, 7, 7)
+                                .addComponent(jLabel6)
+                                .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(limpar)
                                     .addComponent(consultar))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(listar))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(52, 52, 52)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(cadastrar)
                                     .addComponent(excluir)))))
@@ -305,7 +304,7 @@ public class PerguntaManter extends javax.swing.JFrame {
                         .addComponent(selecaonivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(selecaocerta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 15, Short.MAX_VALUE))
+                .addGap(0, 18, Short.MAX_VALUE))
         );
 
         pack();
@@ -313,7 +312,12 @@ public class PerguntaManter extends javax.swing.JFrame {
 
     private void primeiraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primeiraActionPerformed
         // TODO add your handling code here:
-         if (lista.size()>0){
+        primeira.setEnabled(true);
+        anterior.setEnabled(false);
+        proxima.setEnabled(true);
+        ultima.setEnabled(true);
+                
+        if (lista.size()>0){
         // TODO add your handling code here:
         posicao = 0;
         Pergunta p = lista.get(0);
@@ -325,11 +329,17 @@ public class PerguntaManter extends javax.swing.JFrame {
         selecaocerta.setSelectedItem(p.getCerta());
         selecaonivel.setSelectedItem(p.getNivel());
         id.setText(p.getId().toString());
+        
         }
     }//GEN-LAST:event_primeiraActionPerformed
 
     private void proximaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proximaActionPerformed
         // TODO add your handling code here:
+        primeira.setEnabled(true);
+        anterior.setEnabled(true);
+        proxima.setEnabled(true);
+        ultima.setEnabled(true);
+        
         if (lista.size() > 0){
         posicao = posicao + 1;
         Pergunta p = lista.get(posicao);
@@ -346,6 +356,11 @@ public class PerguntaManter extends javax.swing.JFrame {
 
     private void anteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anteriorActionPerformed
         // TODO add your handling code here:
+        primeira.setEnabled(true);
+        anterior.setEnabled(true);
+        proxima.setEnabled(true);
+        ultima.setEnabled(true);
+        
          if (posicao != 0){
          if (lista.size() > 0 ){
         posicao = posicao - 1;
@@ -363,6 +378,10 @@ public class PerguntaManter extends javax.swing.JFrame {
 
     private void ultimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimaActionPerformed
         // TODO add your handling code here:
+        primeira.setEnabled(true);
+        anterior.setEnabled(true);
+        proxima.setEnabled(false);
+        ultima.setEnabled(true);
         if (lista.size() > 0){
         posicao = lista.size() - 1;
         Pergunta p = lista.get(posicao);
@@ -387,7 +406,7 @@ public class PerguntaManter extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         Pergunta item = new Pergunta ();
-        if(enunciado.getText().isEmpty() || a.getText().isEmpty() || b.getText().isEmpty() ||  c.getText().isEmpty() || d.getText().isEmpty() || id.getText().isEmpty() )
+        if(enunciado.getText().isEmpty() || a.getText().isEmpty() || b.getText().isEmpty() ||  c.getText().isEmpty() || d.getText().isEmpty() || selecaonivel.getSelectedIndex() ==0 || selecaocerta.getSelectedIndex() == 0 )
         {
             JOptionPane.showMessageDialog(rootPane,"Todos campos obrigatorios");
         }else {
@@ -396,24 +415,40 @@ public class PerguntaManter extends javax.swing.JFrame {
         item.setB(b.getText());
         item.setC(c.getText());
         item.setD(d.getText());
-        item.setId(Integer.parseInt(id.getText()));
-        item.setNivel(selecaonivel.getSelectedItem().toString());
+        item.setNivel(Integer.parseInt(selecaonivel.getSelectedItem().toString()));
         item.setCerta(selecaocerta.getSelectedItem().toString());
-        lista.add(item);
+        PerguntaDAO dao = new PerguntaDAO();
+        boolean deucerto = dao.inserir(item);
+         if (deucerto==true)
+        {
         JOptionPane.showMessageDialog(rootPane,"Cadastrado com sucesso");
         }
+          else {
+        JOptionPane.showMessageDialog(rootPane,"Erro ao cadastrar");
+        }
+    
+        lista = dao.listar(); 
+         Limpar();
+        } 
     }//GEN-LAST:event_cadastrarActionPerformed
 
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
         // TODO add your handling code here:
-        if(enunciado.getText().isEmpty()== false){
+         if(enunciado.getText().isEmpty()== false){
             if(lista.size() >= 0){ 
-                lista.remove(lista.get(posicao));
-                Limpar();
-                posicao =0;
-            }
-       
-        }
+              PerguntaDAO dao = new PerguntaDAO();
+              Boolean deucerto = dao.excluir(lista.get(posicao));
+              if (deucerto == true)
+              {
+                  JOptionPane.showMessageDialog(rootPane,"Exluido com sucesso"); 
+             lista = dao.listar();
+             Limpar();
+              }
+              else{
+                  JOptionPane.showMessageDialog(rootPane, "Erro ao excluir");
+              }
+              
+            }}
     }//GEN-LAST:event_excluirActionPerformed
 
     private void limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparActionPerformed
@@ -447,7 +482,7 @@ public class PerguntaManter extends javax.swing.JFrame {
                 d.setText(p.getD());
                 selecaonivel.setSelectedItem(p.getNivel());
                 selecaocerta.setSelectedItem(p.getCerta());
-                id.setText(p.getId().toString());
+                id.setText((p.getId().toString()));
                 break;
                        }
             posicaoachou++;
@@ -462,9 +497,9 @@ public class PerguntaManter extends javax.swing.JFrame {
 
     private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
         // TODO add your handling code here:
-        JogadorListar lista = new JogadorListar();
+        PerguntaListar lista = new PerguntaListar();
         lista.setVisible(true);
-        dispose();
+       
     }//GEN-LAST:event_listarActionPerformed
 
     private void enunciadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enunciadoActionPerformed

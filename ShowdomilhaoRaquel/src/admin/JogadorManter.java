@@ -6,6 +6,7 @@
 
 package admin;
 
+import dao.JogadorDAO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -24,7 +25,8 @@ public class JogadorManter extends javax.swing.JFrame {
     Integer posicao;
     public JogadorManter() {
         initComponents();
-        lista = new ArrayList<Jogador>();
+        JogadorDAO dao = new JogadorDAO();
+        lista =  dao.listar();
         posicao =0;
     }
 
@@ -120,6 +122,14 @@ public class JogadorManter extends javax.swing.JFrame {
         sn.setText("senha:");
 
         em.setText("email:");
+
+        email.setEditable(false);
+        email.setEnabled(false);
+        email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailActionPerformed(evt);
+            }
+        });
 
         cadastrar.setText("cadastrar");
         cadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -228,12 +238,17 @@ public class JogadorManter extends javax.swing.JFrame {
 
     private void primeiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primeiroActionPerformed
         // TODO add your handling code here:
+        primeiro.setEnabled(true);
+        anterior.setEnabled(false);
+        proximo.setEnabled(true);
+        ultimo.setEnabled(true);
+        
         if (lista.size()>0){
         // TODO add your handling code here:
         posicao = 0;
         Jogador j = lista.get(0);
-        nome.setText(j.getNome());
         email.setText(j.getEmail());
+        nome.setText(j.getNome());
         senha.setText(j.getSenha());
         }
         
@@ -241,6 +256,11 @@ public class JogadorManter extends javax.swing.JFrame {
 
     private void anteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anteriorActionPerformed
         // TODO add your handling code here:
+        primeiro.setEnabled(true);
+        anterior.setEnabled(true);
+        proximo.setEnabled(true);
+        ultimo.setEnabled(true);
+        
         if (posicao != 0){
         if (lista.size() > 0 ){
         posicao = posicao - 1;
@@ -254,6 +274,10 @@ public class JogadorManter extends javax.swing.JFrame {
 
     private void proximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proximoActionPerformed
         // TODO add your handling code here:
+        primeiro.setEnabled(true);
+        anterior.setEnabled(true);
+        proximo.setEnabled(true);
+        ultimo.setEnabled(true);
         if (lista.size() > 0){
         posicao = posicao + 1;
         Jogador j = lista.get(posicao);
@@ -265,6 +289,11 @@ public class JogadorManter extends javax.swing.JFrame {
 
     private void ultimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimoActionPerformed
         // TODO add your handling code here:
+        primeiro.setEnabled(true);
+        anterior.setEnabled(true);
+        proximo.setEnabled(false);
+        ultimo.setEnabled(true);
+        
         if (lista.size() > 0){
         posicao = lista.size() - 1;
         Jogador j = lista.get(posicao);
@@ -277,17 +306,24 @@ public class JogadorManter extends javax.swing.JFrame {
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
         // TODO add your handling code here:
          Jogador item = new Jogador();
-        if(nome.getText().isEmpty() || email.getText().isEmpty() || senha.getText().isEmpty())
+        if(nome.getText().isEmpty() || senha.getText().isEmpty())
         {
             JOptionPane.showMessageDialog(rootPane,"Todos campos obrigatorios");
         }else {
       
         item.setNome(nome.getText());
-        item.setEmail(email.getText());
         item.setSenha(senha.getText());
-        lista.add(item);
+        JogadorDAO dao = new JogadorDAO();
+        boolean deucerto = dao.inserir(item);
+        
+        if (deucerto==true)
+        {
         JOptionPane.showMessageDialog(rootPane,"Cadastrado com sucesso");
+        }else {
+        JOptionPane.showMessageDialog(rootPane,"Erro ao cadastrar");
         }
+           lista.add(item);
+           Limpar();}
     }//GEN-LAST:event_cadastrarActionPerformed
 
     private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
@@ -313,12 +349,21 @@ public class JogadorManter extends javax.swing.JFrame {
     }//GEN-LAST:event_listarActionPerformed
 
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
-        // TODO add your handling code here
+        // chave primaria foi informada
         if(nome.getText().isEmpty()== false){
             if(lista.size() >= 0){ 
-                lista.remove(lista.get(posicao));
-                Limpar();
-                posicao =0;
+              JogadorDAO dao = new JogadorDAO();
+              Boolean deucerto = dao.excluir(lista.get(posicao));
+              if (deucerto == true)
+              {
+                  JOptionPane.showMessageDialog(rootPane,"Exluido com sucesso"); 
+             lista = dao.listar();
+             Limpar();
+              }
+              else{
+                  JOptionPane.showMessageDialog(rootPane, "Erro ao excluir");
+              }
+              
             }
        
         }
@@ -333,6 +378,10 @@ public class JogadorManter extends javax.swing.JFrame {
        JOptionPane.showMessageDialog(null, "apagou :D ");
        Limpar();
     }//GEN-LAST:event_apagarActionPerformed
+
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailActionPerformed
 
     /**
      * @param args the command line arguments

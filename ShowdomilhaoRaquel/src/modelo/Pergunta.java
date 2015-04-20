@@ -2,7 +2,7 @@ package modelo;
 
 public class Pergunta {
     
-    private int  nivel,id;
+    private Integer  nivel,id;
     private String a,b,c,d,certa,enunciado;
 
     public String getEnunciado() {
@@ -14,11 +14,11 @@ public class Pergunta {
     }
 
   
-       public int getNivel() {
+       public Integer getNivel() {
         return nivel;
     }
 
-    public void setNivel(int nivel) {
+    public void setNivel(Integer nivel) {
         this.nivel = nivel;
     }
 
@@ -62,11 +62,11 @@ public class Pergunta {
         this.certa = certa;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     

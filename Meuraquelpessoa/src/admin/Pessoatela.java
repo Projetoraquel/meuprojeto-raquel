@@ -6,6 +6,7 @@
 
 package admin;
 
+import dao.PessoaDAO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -24,7 +25,8 @@ public class Pessoatela extends javax.swing.JFrame {
     Integer posicao;
     public Pessoatela() {
         initComponents();
-        lista = new ArrayList<Pessoa>();
+        PessoaDAO dao = new PessoaDAO();
+        lista =  dao.listar();
         posicao =0;
     }
 
@@ -126,6 +128,8 @@ public class Pessoatela extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel3.setText("Sexo:");
 
+        codigo.setEditable(false);
+        codigo.setEnabled(false);
         codigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 codigoActionPerformed(evt);
@@ -133,6 +137,11 @@ public class Pessoatela extends javax.swing.JFrame {
         });
 
         sexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione", "Feminino", "Masculino" }));
+        sexo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sexoActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 14), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -264,6 +273,12 @@ public class Pessoatela extends javax.swing.JFrame {
 
     private void anteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anteriorActionPerformed
         // TODO add your handling code here:
+        
+        primeiro.setEnabled(true);
+        anterior.setEnabled(true);
+        proximo.setEnabled(true);
+        ultimo.setEnabled(true);
+        
         if (posicao != 0){
         if (lista.size() > 0 ){
         posicao = posicao - 1;
@@ -277,6 +292,11 @@ public class Pessoatela extends javax.swing.JFrame {
 
     private void ultimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimoActionPerformed
         // TODO add your handling code here:
+        primeiro.setEnabled(true);
+        anterior.setEnabled(true);
+        proximo.setEnabled(false);
+        ultimo.setEnabled(true);
+        
         if (lista.size() > 0){
         posicao = lista.size() - 1;
         Pessoa p = lista.get(posicao);
@@ -293,31 +313,37 @@ public class Pessoatela extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Pessoa item = new Pessoa();
-        if(nome.getText().isEmpty() || codigo.getText().isEmpty() || sexo.getSelectedIndex() == 0)
+        if(nome.getText().isEmpty() || sexo.getSelectedIndex() == 0)
         {
             JOptionPane.showMessageDialog(rootPane,"Todos campos obrigatorios");
         }else
         {
-            Boolean deu = false;
-            try {
-                   item.setCodigo(Integer.parseInt(codigo.getText()));
-                    deu =true;
-            } catch (Exception e) {
-                deu = false;
-                JOptionPane.showMessageDialog(rootPane,"Codigo deve ser numerico");
-            }
-            if(deu==true)
-            {
-        item.setCodigo(Integer.parseInt(codigo.getText()));
         item.setNome(nome.getText());
         item.setSexo(sexo.getSelectedItem().toString());
-        lista.add(item);
+        PessoaDAO dao = new PessoaDAO();
+        boolean deucerto = dao.inserir(item);
+        
+        if (deucerto==true)
+        {
         JOptionPane.showMessageDialog(rootPane,"Cadastrado com sucesso");
-        }}
+        }else {
+        JOptionPane.showMessageDialog(rootPane,"Erro ao cadastrar");
+        }
+           lista.add(item);
+           Limpar();
+        
+        
+        }
+            
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void primeiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primeiroActionPerformed
         // TODO add your handling code here:
+        primeiro.setEnabled(true);
+        anterior.setEnabled(false);
+        proximo.setEnabled(true);
+        ultimo.setEnabled(true);
+        
         if (lista.size()>0){
         // TODO add your handling code here:
         posicao = 0;
@@ -330,8 +356,24 @@ public class Pessoatela extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-       lista.remove(lista.get(posicao));
-        Limpar();
+        if(nome.getText().isEmpty()== false){
+            if(lista.size() >= 0){ 
+              PessoaDAO dao = new PessoaDAO();
+              Boolean deucerto = dao.excluir(lista.get(posicao));
+              if (deucerto == true)
+              {
+                  JOptionPane.showMessageDialog(rootPane,"Exluido com sucesso"); 
+             lista = dao.listar();
+             Limpar();
+              }
+              else{
+                  JOptionPane.showMessageDialog(rootPane, "Erro ao excluir");
+              }
+              
+            }
+       
+        }
+       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -345,21 +387,36 @@ public class Pessoatela extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        String nome1 = JOptionPane.showInputDialog("Digite o nome a ser pesquisado:");
+      String nome1 = JOptionPane.showInputDialog("Digite o nome a ser pesquisado:");
         boolean encontrou = false;
         int posicaoachou = 0;
                                    
         for (Pessoa p : lista){
             if (nome1.equals(p.getNome())){ 
+             encontrou = true;
                posicao = posicaoachou;
-                nome.setText(p.getNome());
-                codigo.setText((p.getCodigo().toString()));   
-                sexo.setSelectedItem(p.getSexo());
-        }}
+               nome.setText(p.getNome());
+               codigo.setText(p.getCodigo().toString());
+               sexo.setSelectedItem(p.getSexo());
+               break;
+                       }
+            posicaoachou++;
+        }
+        if (encontrou == true) {
+            JOptionPane.showMessageDialog(null, "Sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Pergunta nao existe");
+                                              
+            }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void proximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proximoActionPerformed
         // TODO add your handling code here:
+        primeiro.setEnabled(true);
+        anterior.setEnabled(true);
+        proximo.setEnabled(true);
+        ultimo.setEnabled(true);
+        
          if (lista.size() > 0){
         posicao = posicao + 1;
         Pessoa p = lista.get(posicao);
@@ -374,6 +431,10 @@ public class Pessoatela extends javax.swing.JFrame {
         Listapessoa tela = new Listapessoa();
         tela.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void sexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sexoActionPerformed
 
      private void Limpar()
     {
